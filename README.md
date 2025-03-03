@@ -3,7 +3,7 @@
 
 ## Installation
 
-    go get github.com/pirsquare/country-mapper
+    go get github.com/marcfrederick/country-mapper
 
 
 ## Examples
@@ -12,7 +12,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/pirsquare/country-mapper"
+	"github.com/marcfrederick/country-mapper"
 )
 
 var countryClient *country_mapper.CountryInfoClient
