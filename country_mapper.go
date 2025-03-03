@@ -1,14 +1,15 @@
 package country_mapper
 
 import (
+	"bytes"
+	_ "embed"
 	"encoding/csv"
 	"net/http"
 	"strings"
 )
 
-const (
-	defaultFile = "https://raw.githubusercontent.com/marcfrederick/country-mapper/master/files/country_info.csv"
-)
+//go:embed files/country_info.csv
+var defaultCountryInfo []byte
 
 type CountryInfoClient struct {
 	Data []*CountryInfo
@@ -140,20 +141,32 @@ func readCSVFromURL(fileURL string) ([][]string, error) {
 	return data, nil
 }
 
+// readCSVFromBytes reads csv data from a byte slice
+func readCSVFromBytes(b []byte) ([][]string, error) {
+	reader := csv.NewReader(bytes.NewReader(b))
+	reader.Comma = ';'
+	data, err := reader.ReadAll()
+	if err != nil {
+		return nil, err
+	}
+
+	return data, nil
+}
+
 // Pass in an optional url if you would like to use your own downloadable csv file for country's data.
 // This is useful if you prefer to host the data file yourself or if you have modified some of the fields
 // for your specific use case.
 func Load(specifiedURL ...string) (*CountryInfoClient, error) {
-	var fileURL string
+	var data [][]string
+	var err error
 
-	// use user specified url for csv file if provided, else use default file URL
+	// use user specified url for csv file if provided, else use default
 	if len(specifiedURL) > 0 {
-		fileURL = specifiedURL[0]
+		data, err = readCSVFromURL(specifiedURL[0])
 	} else {
-		fileURL = defaultFile
+		data, err = readCSVFromBytes(defaultCountryInfo)
 	}
 
-	data, err := readCSVFromURL(fileURL)
 	if err != nil {
 		return nil, err
 	}
