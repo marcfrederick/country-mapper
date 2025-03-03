@@ -1,12 +1,25 @@
 # Country Info Mapper in Go
+
 ![Test](https://github.com/marcfrederick/country-mapper/actions/workflows/test.yml/badge.svg?branch=master)
+
+> :info: This repository is a fork of [pirsquare/country-mapper](https://github.com/pirsquare/country-mapper) with some
+> minor changes as the original repository is no longer maintained.
+>
+> The original library dynamically fetched country data from the internet at runtime. This fork instead embeds the
+> country data as a static asset in the binary.
+
+A simple Go library to map country's data by name, alpha-2, alpha-3, currency, calling code, region, and subregion.
 
 ## Installation
 
-    go get github.com/marcfrederick/country-mapper
+To install the library, you can use the following command:
 
+```shell
+go get github.com/marcfrederick/country-mapper
+```
 
 ## Examples
+
 ```go
 package main
 
@@ -137,11 +150,14 @@ func main() {
 
 ```
 
-
 ## FAQ
-### How can I use my own csv file for country's data
-You can pass in an optional url to `country_mapper.Load("http"//example.com/file.csv")`. This is useful if you prefer to host the data file yourself or if you have modified some of the fields for your specific use case. Do keep in mind that the schema and order of columns should still be kept the same.
 
+### How can I use my own csv file for country's data
+
+You can pass in an optional url to `country_mapper.Load("http"//example.com/file.csv")`. This is useful if you prefer to
+host the data file yourself or if you have modified some of the fields for your specific use case. Do keep in mind that
+the schema and order of columns should still be kept the same.
 
 ## Credits
+
 - Thanks to @mledoze for country's data ([https://github.com/mledoze/countries](https://github.com/mledoze/countries))
