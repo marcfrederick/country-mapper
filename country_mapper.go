@@ -4,6 +4,7 @@ import (
 	"bytes"
 	_ "embed"
 	"encoding/csv"
+	"fmt"
 	"net/http"
 	"strings"
 )
@@ -153,10 +154,21 @@ func readCSVFromBytes(b []byte) ([][]string, error) {
 	return data, nil
 }
 
+// Load reads the country info data from a csv file and returns a CountryInfoClient
+//
 // Pass in an optional url if you would like to use your own downloadable csv file for country's data.
 // This is useful if you prefer to host the data file yourself or if you have modified some of the fields
 // for your specific use case.
 func Load(specifiedURL ...string) (*CountryInfoClient, error) {
+	if len(specifiedURL) > 1 {
+		// For some reason the original code allowed multiple urls to be passed
+		// in, but only used the first one.
+		//
+		// For now, we'll just return an error if more than one url is passed
+		// in. Previously, the code would just ignore all but the first url.
+		return nil, fmt.Errorf("only one url can be passed in")
+	}
+
 	var data [][]string
 	var err error
 

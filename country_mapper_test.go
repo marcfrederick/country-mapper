@@ -8,18 +8,33 @@ import (
 
 var mockClient *CountryInfoClient
 
-//===========================================
+// ===========================================
 // Setup Tests
-//===========================================
-func Test_Init(t *testing.T) {
-	client, err := Load()
-	assert.Nil(t, err)
+// ===========================================
+func TestMain(m *testing.M) {
+	client, _ := Load()
 	mockClient = client
+	m.Run()
 }
 
-//===========================================
+// ===========================================
+// Load
+// ===========================================
+func Test_Load(t *testing.T) {
+	client, err := Load()
+	assert.NoError(t, err)
+	assert.NotNil(t, client)
+}
+
+func Test_Load_MultipleURLs(t *testing.T) {
+	client, err := Load("https://foo.com", "https://bar.com")
+	assert.Error(t, err)
+	assert.Nil(t, client)
+}
+
+// ===========================================
 // CountryInfoClient MapByName
-//===========================================
+// ===========================================
 func Test_Client_MapByName(t *testing.T) {
 	// should map by name
 	ret := mockClient.MapByName("South Korea")
@@ -44,41 +59,41 @@ func Test_Client_MapByName(t *testing.T) {
 	assert.Nil(t, ret)
 }
 
-//===========================================
+// ===========================================
 // CountryInfoClient MapByAlpha2
-//===========================================
+// ===========================================
 func Test_Client_MapByAlpha2(t *testing.T) {
 	ret := mockClient.MapByAlpha2("SG")
 	assert.Equal(t, ret.Name, "Singapore")
 }
 
-//===========================================
+// ===========================================
 // CountryInfoClient MapByAlpha3
-//===========================================
+// ===========================================
 func Test_Client_MapByAlpha3(t *testing.T) {
 	ret := mockClient.MapByAlpha3("SGP")
 	assert.Equal(t, ret.Name, "Singapore")
 }
 
-//===========================================
+// ===========================================
 // CountryInfoClient MapByCurrency
-//===========================================
+// ===========================================
 func Test_Client_MapByCurrency(t *testing.T) {
 	ret := mockClient.MapByCurrency("SGD")
 	assert.Equal(t, ret[0].Name, "Singapore")
 }
 
-//===========================================
+// ===========================================
 // CountryInfoClient MapByCallingCode
-//===========================================
+// ===========================================
 func Test_Client_MapByCallingCode(t *testing.T) {
 	ret := mockClient.MapByCallingCode("65")
 	assert.Equal(t, ret[0].Name, "Singapore")
 }
 
-//===========================================
+// ===========================================
 // CountryInfoClient MapByRegion
-//===========================================
+// ===========================================
 func Test_Client_MapByRegion(t *testing.T) {
 	countriesInOceania := []string{
 		"American Samoa",
@@ -115,9 +130,9 @@ func Test_Client_MapByRegion(t *testing.T) {
 	}
 }
 
-//===========================================
+// ===========================================
 // CountryInfoClient MapBySubregion
-//===========================================
+// ===========================================
 func Test_Client_MapBySubregion(t *testing.T) {
 	countriesInSEA := []string{
 		"Brunei",
