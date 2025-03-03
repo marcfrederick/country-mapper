@@ -1,5 +1,5 @@
 # Country Info Mapper in Go
-[![Build Status](https://travis-ci.org/pirsquare/country-mapper.svg?branch=master)](https://travis-ci.org/pirsquare/country-mapper)
+![Test](https://github.com/marcfrederick/country-mapper/actions/workflows/test.yml/badge.svg?branch=master)
 
 ## Installation
 
