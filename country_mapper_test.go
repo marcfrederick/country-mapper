@@ -1,18 +1,20 @@
-package country_mapper
+package country_mapper_test
 
 import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+
+	countryMapper "github.com/marcfrederick/country-mapper"
 )
 
-var mockClient *CountryInfoClient
+var mockClient *countryMapper.CountryInfoClient
 
 // ===========================================
 // Setup Tests
 // ===========================================
 func TestMain(m *testing.M) {
-	client, _ := Load()
+	client, _ := countryMapper.Load()
 	mockClient = client
 	m.Run()
 }
@@ -21,13 +23,13 @@ func TestMain(m *testing.M) {
 // Load
 // ===========================================
 func Test_Load(t *testing.T) {
-	client, err := Load()
+	client, err := countryMapper.Load()
 	assert.NoError(t, err)
 	assert.NotNil(t, client)
 }
 
 func Test_Load_MultipleURLs(t *testing.T) {
-	client, err := Load("https://foo.com", "https://bar.com")
+	client, err := countryMapper.Load("https://foo.com", "https://bar.com")
 	assert.Error(t, err)
 	assert.Nil(t, client)
 }
